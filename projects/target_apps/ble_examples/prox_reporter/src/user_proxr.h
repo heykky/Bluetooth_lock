@@ -56,7 +56,7 @@
  */
 
 void app_button_enable(void);
-
+void systick_timer_enable(void);
 
 /// @} APP
 

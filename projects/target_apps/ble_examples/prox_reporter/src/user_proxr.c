@@ -41,6 +41,7 @@
 #include "user_proxr.h"
 #include "arch_api.h"
 #include "app_task.h"
+#include "systick.h"
 
 
 #if defined(__DA14583__) && (!SPOTAR_SPI_DISABLE)
@@ -86,24 +87,32 @@ void app_wakeup_cb(void)
 void app_button_press_cb(void)
 {
         
-#if BLE_PROX_REPORTER	
-		if (alert_state.lvl != PROXR_ALERT_NONE)
-		{
-			app_proxr_alert_stop();	
-		}
-        else 
-#endif         
-		
-        {
-#if BLE_FINDME_LOCATOR            
-        if (ke_state_get(TASK_FINDL) == FINDL_CONNECTED)
-        {
-            app_findl_set_alert();  
-        }
-		
-#endif 
-        }
+// #if BLE_PROX_REPORTER	
+// 		if (alert_state.lvl != PROXR_ALERT_NONE)
+// 		{
+// 			app_proxr_alert_stop();	
+// 		}
+//         else 
+// #endif         
+// 		
+//         {
+// #if BLE_FINDME_LOCATOR            
+//         if (ke_state_get(TASK_FINDL) == FINDL_CONNECTED)
+//         {
+//             app_findl_set_alert();  
+//         }
+// 		
+// #endif 
+//         }
         
+//     if(0 == arch_get_sleep_mode())
+//     {
+//         arch_set_sleep_mode(ARCH_EXT_SLEEP_ON);
+//         //GPIO_SetInactive(GPIO_PORT_1,GPIO_PIN_0);
+//     }
+//     else
+//     {
+        arch_set_sleep_mode(ARCH_SLEEP_OFF);
         if(GetBits16(SYS_STAT_REG, PER_IS_DOWN))
             periph_init(); 
         
@@ -119,9 +128,10 @@ void app_button_press_cb(void)
            // ke_msg_send_basic(APP_WAKEUP_MSG, TASK_APP, 0);
             app_easy_wakeup();
         }
-        
         app_button_enable();
-        
+        //GPIO_SetActive(GPIO_PORT_1,GPIO_PIN_0);
+        systick_start(4000000 ,true);
+//     }
 }
 
 /**
@@ -140,9 +150,22 @@ void app_button_enable(void)
         wkupct_enable_irq(WKUPCT_PIN_SELECT(GPIO_BUTTON_PORT, GPIO_BUTTON_PIN), // select pin (GPIO_BUTTON_PORT, GPIO_BUTTON_PIN)
                           WKUPCT_PIN_POLARITY(GPIO_BUTTON_PORT, GPIO_BUTTON_PIN, WKUPCT_PIN_POLARITY_LOW), // polarity low
                           1, // 1 event
-                          0); // debouncing time = 0
+                          0x3F); // debouncing time = 0
 #endif
 }
+
+void systick_timer_cb(void)
+{
+    //GPIO_SetInactive(GPIO_PORT_1,GPIO_PIN_0);
+    systick_stop();
+    arch_set_sleep_mode(ARCH_DEEP_SLEEP_ON);
+}
+
+void systick_timer_enable(void)
+{
+    systick_register_callback(systick_timer_cb);
+}
+
 
 #if BLE_SPOTA_RECEIVER
 /**

@@ -76,7 +76,7 @@ void GPIO_reservations(void)
     //RESERVE_GPIO( I2C_SDA, GPIO_PORT_0, GPIO_PIN_3, PID_I2C_SDA);
 #endif
     //BUTTON interrupt
-    RESERVE_GPIO(BUTTON_INT,BUTTON_PORT, BUTTON_PIN, PID_GPIO);
+    //RESERVE_GPIO(BUTTON_INT,BUTTON_PORT, BUTTON_PIN, PID_GPIO);
     //UART1
     RESERVE_GPIO(UART_TX,GPIO_PORT_0, GPIO_PIN_4, PID_UART1_TX);
     RESERVE_GPIO(UART_RX,GPIO_PORT_0, GPIO_PIN_7, PID_UART1_RX);
@@ -110,7 +110,7 @@ void set_pad_functions(void)        // set gpio port function mode
     
 #if BLE_PROX_REPORTER
     #if USE_PUSH_BUTTON
-    GPIO_ConfigurePin( GPIO_BUTTON_PORT, GPIO_BUTTON_PIN, INPUT_PULLUP, PID_GPIO, false ); // Push Button 
+    GPIO_ConfigurePin( GPIO_BUTTON_PORT, GPIO_BUTTON_PIN, INPUT_PULLUP, PID_GPIO, true ); // Push Button 
     #endif // USE_PUSH_BUTTON
     GPIO_ConfigurePin( GPIO_ALERT_LED_PORT, GPIO_ALERT_LED_PIN, OUTPUT, PID_GPIO, false ); //Alert LED
 #endif
@@ -129,9 +129,9 @@ void set_pad_functions(void)        // set gpio port function mode
     //GPIO_ConfigurePin(GPIO_PORT_0, GPIO_PIN_3, INPUT, PID_I2C_SDA, false);
 #endif
     //pull up input, enable interrupt
-    GPIO_ConfigurePin( BUTTON_PORT,  BUTTON_PIN,  INPUT_PULLUP,  PID_GPIO, true );
-    GPIO_EnableIRQ(BUTTON_PORT,BUTTON_PIN,GPIO1_IRQn,true,true,10);
-    GPIO_RegisterCallback(GPIO1_IRQn, &button_callback);
+    //GPIO_ConfigurePin( BUTTON_PORT,  BUTTON_PIN,  INPUT_PULLUP,  PID_GPIO, true );
+//     GPIO_EnableIRQ(GPIO_BUTTON_PORT,GPIO_BUTTON_PIN,GPIO1_IRQn,true,true,10);
+//     GPIO_RegisterCallback(GPIO1_IRQn, &button_callback);
 }
 
 
@@ -161,6 +161,7 @@ void periph_init(void)  // set i2c, spi, uart, uart2 serial clks
     app_proxr_port_reinit(GPIO_ALERT_LED_PORT, GPIO_ALERT_LED_PIN);
     #if USE_PUSH_BUTTON
     app_button_enable();
+    systick_timer_enable();
     #endif // USE_PUSH_BUTTON
 #elif BLE_FINDME_LOCATOR
     #if USE_PUSH_BUTTON

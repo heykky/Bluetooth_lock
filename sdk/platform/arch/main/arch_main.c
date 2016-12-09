@@ -185,7 +185,7 @@ int main_func(void)
               //((STREAMDATA_QUEUE)&& stream_queue_more_data())); //grant control to the streamer, try to go to power down
                                                                 //if the application returns GOTO_SLEEP
         //wait for interrupt and go to sleep if this is allowed
-		/*if (((!BLE_APP_PRESENT) && (check_gtl_state())) ||
+		if (((!BLE_APP_PRESENT) && (check_gtl_state())) ||
         	(BLE_APP_PRESENT))
     	{
     	 	 //Disable the interrupts
@@ -217,7 +217,7 @@ int main_func(void)
             }
             // restore interrupts
             GLOBAL_INT_START();
-        }*/
+        }
      Buzzer_test();  
      if (USE_WDOG)
     	 wdg_reload(WATCHDOG_DEFAULT_PERIOD);
