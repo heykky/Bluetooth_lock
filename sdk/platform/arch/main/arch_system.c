@@ -5,9 +5,9 @@
  *
  * @brief System setup.
  *
- * Copyright (C) 2012. Dialog Semiconductor Ltd, unpublished work. This computer 
- * program includes Confidential, Proprietary Information and is a Trade Secret of 
- * Dialog Semiconductor Ltd.  All use, disclosure, and/or reproduction is prohibited 
+ * Copyright (C) 2012. Dialog Semiconductor Ltd, unpublished work. This computer
+ * program includes Confidential, Proprietary Information and is a Trade Secret of
+ * Dialog Semiconductor Ltd.  All use, disclosure, and/or reproduction is prohibited
  * unless authorized in writing. All Rights Reserved.
  *
  * <bluetooth.support@diasemi.com> and contributors.
@@ -64,7 +64,7 @@
  * @{
  */
 
-// Delay sleep entrance at system startup 
+// Delay sleep entrance at system startup
 
 uint32_t startup_sleep_delay = STARTUP_SLEEP_DELAY_DEFAULT;
 
@@ -81,7 +81,7 @@ void platform_reset_func(uint32_t error);
 extern bool sys_startup_flag;
 
 #if !(BLE_HOST_PRESENT)
- 
+
 #if (HCI_OVER_UART_ENABLED)
 // Creation of uart external interface api
 extern const struct rwip_eif_api uart_api;
@@ -99,7 +99,7 @@ const struct rwip_eif_api spi_api =
 #endif //#if (HCI_OVER_UART_ENABLED)
 #endif //#if (!BLE_HOST_PRESENT)
 
-uint32_t lp_clk_sel __attribute__((section("retention_mem_area0"),zero_init));   //low power clock selection  
+uint32_t lp_clk_sel __attribute__((section("retention_mem_area0"),zero_init));   //low power clock selection
 uint32_t rcx_freq __attribute__((section("retention_mem_area0"),zero_init));
 uint8_t cal_enable  __attribute__((section("retention_mem_area0"),zero_init));
 uint32_t rcx_period __attribute__((section("retention_mem_area0"),zero_init));
@@ -129,7 +129,7 @@ uint32_t rcx_period_diff __attribute__((section("retention_mem_area0"),zero_init
 
 /**
  ****************************************************************************************
- * @brief Read low power clock selection from 
+ * @brief Read low power clock selection from
  *
  * The Hclk and Pclk are set
  ****************************************************************************************
@@ -138,20 +138,20 @@ void select_lp_clk()
 {
     if (CFG_LP_CLK == LP_CLK_FROM_OTP)
     {
-        
+
         uint16_t *lp_clk;
         int cnt = 100000;
 
-        if (APP_BOOT_FROM_OTP)    
+        if (APP_BOOT_FROM_OTP)
         {
             #define XPMC_MODE_MREAD   0x1
             lp_clk = (uint16_t *)(0x40000 + LP_CLK_OTP_OFFSET);     //where in OTP header is IQ_Trim
-            
-            SetBits16(CLK_AMBA_REG, OTP_ENABLE, 1);                           //enable OTP clock	
+
+            SetBits16(CLK_AMBA_REG, OTP_ENABLE, 1);                           //enable OTP clock
             while ((GetWord16(ANA_STATUS_REG) & LDO_OTP_OK) != LDO_OTP_OK && cnt--)
                 /* Just wait */;
-                
-            // set OTP in read mode 
+
+            // set OTP in read mode
             SetWord32(OTPC_MODE_REG, XPMC_MODE_MREAD);
         }
         else
@@ -160,11 +160,11 @@ void select_lp_clk()
         }
 
         lp_clk_sel  = (*lp_clk);
-        SetBits16(CLK_AMBA_REG, OTP_ENABLE, 0);                           //disable OTP clock     
+        SetBits16(CLK_AMBA_REG, OTP_ENABLE, 0);                           //disable OTP clock
     }
-    else //CFG_LP_CLK 
-        lp_clk_sel = CFG_LP_CLK; 
- 
+    else //CFG_LP_CLK
+        lp_clk_sel = CFG_LP_CLK;
+
 }
 
 /**
@@ -174,88 +174,88 @@ void select_lp_clk()
  * The Hclk and Pclk are set
  ****************************************************************************************
  */
-static __inline void init_pwr_and_clk_ble(void) 
+static __inline void init_pwr_and_clk_ble(void)
 {
     SetBits16(CLK_RADIO_REG, BLE_DIV, 0);
-    SetBits16(CLK_RADIO_REG, BLE_ENABLE, 1); 
+    SetBits16(CLK_RADIO_REG, BLE_ENABLE, 1);
     SetBits16(CLK_RADIO_REG, RFCU_DIV, 1);
     SetBits16(CLK_RADIO_REG, RFCU_ENABLE, 1);
 
-    /* 
+    /*
      * Power up BLE core & reset BLE Timers
     */
-    SetBits16(CLK_32K_REG,  RC32K_ENABLE, 1);  
-    SetBits16(SYS_CTRL_REG, CLK32_SOURCE, 0);  
-    SetBits16(CLK_RADIO_REG, BLE_LP_RESET, 1);  
+    SetBits16(CLK_32K_REG,  RC32K_ENABLE, 1);
+    SetBits16(SYS_CTRL_REG, CLK32_SOURCE, 0);
+    SetBits16(CLK_RADIO_REG, BLE_LP_RESET, 1);
     SetBits16(PMU_CTRL_REG, RADIO_SLEEP, 0);
     while (!(GetWord16(SYS_STAT_REG) & RAD_IS_UP)); // Just wait for radio to truely wake up
-                                
+
     select_lp_clk();
 
     if ( arch_clk_is_XTAL32( ) )
     {
-        SetBits16(CLK_32K_REG, XTAL32K_ENABLE, 1);  // Enable XTAL32KHz 
+        SetBits16(CLK_32K_REG, XTAL32K_ENABLE, 1);  // Enable XTAL32KHz
 
         // Disable XTAL32 amplitude regulation in BOOST mode
-        if (GetBits16(ANA_STATUS_REG, BOOST_SELECTED) == 0x1) 
-            SetBits16(CLK_32K_REG,  XTAL32K_DISABLE_AMPREG, 1);  
+        if (GetBits16(ANA_STATUS_REG, BOOST_SELECTED) == 0x1)
+            SetBits16(CLK_32K_REG,  XTAL32K_DISABLE_AMPREG, 1);
         else
-            SetBits16(CLK_32K_REG,  XTAL32K_DISABLE_AMPREG, 0);  
+            SetBits16(CLK_32K_REG,  XTAL32K_DISABLE_AMPREG, 0);
         SetBits16(CLK_32K_REG,  XTAL32K_CUR, 5);
         SetBits16(CLK_32K_REG,  XTAL32K_RBIAS, 3);
         SetBits16(SYS_CTRL_REG, CLK32_SOURCE, 1);  // Select XTAL32K as LP clock
-        
+
      }
     else if ( arch_clk_is_RCX20( ) )
     {
-        SetBits16(CLK_RCX20K_REG, RCX20K_NTC, 0xB);      
+        SetBits16(CLK_RCX20K_REG, RCX20K_NTC, 0xB);
         SetBits16(CLK_RCX20K_REG, RCX20K_BIAS, 1);
         SetBits16(CLK_RCX20K_REG, RCX20K_TRIM, 0);
         SetBits16(CLK_RCX20K_REG, RCX20K_LOWF, 1);
-                           
+
         SetBits16(CLK_RCX20K_REG, RCX20K_ENABLE, 1);
-    
+
         SetBits16(CLK_RCX20K_REG, RCX20K_SELECT, 1);
-    
-        SetBits16(SYS_CTRL_REG, CLK32_SOURCE, 0);                                               
+
+        SetBits16(SYS_CTRL_REG, CLK32_SOURCE, 0);
 
         SetBits16(CLK_32K_REG, XTAL32K_ENABLE, 0); // Disable Xtal32KHz
     }
     else
         ASSERT_WARNING(0);
-    
+
     SetBits16(CLK_32K_REG,  RC32K_ENABLE, 0);   // Disable RC32KHz
-                                
+
     SetBits16(CLK_RADIO_REG, BLE_LP_RESET, 0);
-    
-    if (GetBits16(ANA_STATUS_REG, BOOST_SELECTED) == 0x1) 
+
+    if (GetBits16(ANA_STATUS_REG, BOOST_SELECTED) == 0x1)
         SetWord16(DCDC_CTRL3_REG, 0x5);
-    
-    /* 
+
+    /*
      * Just make sure that BLE core is stopped (if already running)
      */
-    SetBits32(BLE_RWBTLECNTL_REG, RWBLE_EN, 0); 
- 
-    /* 
+    SetBits32(BLE_RWBTLECNTL_REG, RWBLE_EN, 0);
+
+    /*
      * Since BLE is stopped (and powered), set CLK_SEL
-     */    
+     */
     SetBits32(BLE_CNTL2_REG, BLE_CLK_SEL, 16);
-    SetBits32(BLE_CNTL2_REG, BLE_RSSI_SEL, 1);    
+    SetBits32(BLE_CNTL2_REG, BLE_RSSI_SEL, 1);
 }
 
 
 
 /**
  ****************************************************************************************
- * @brief Creates sw cursor in power profiler tool. Used for Development/ Debugging 
+ * @brief Creates sw cursor in power profiler tool. Used for Development/ Debugging
  *
- * @return void 
+ * @return void
  ****************************************************************************************
  */
 void arch_set_pxact_gpio(void)
 {
     if (DEVELOPMENT_DEBUG)
-    {        
+    {
         uint32_t i;
 
         SetWord16(P13_MODE_REG, PID_GPIO|OUTPUT);
@@ -263,18 +263,18 @@ void arch_set_pxact_gpio(void)
         for (i = 0; i < 150; i++); //20 is almost 7.6usec of time.
         SetWord16(P1_RESET_DATA_REG, 0x8);
     }
-    
+
     return;
 }
 
 
 /**
  ****************************************************************************************
- * @brief Starts RCX20 calibration. 
+ * @brief Starts RCX20 calibration.
  *
- * @param[in]   cal_time. Calibration time in RCX20 cycles. 
+ * @param[in]   cal_time. Calibration time in RCX20 cycles.
  *
- * @return void 
+ * @return void
  ****************************************************************************************
  */
 void calibrate_rcx20(uint16_t cal_time)
@@ -282,7 +282,7 @@ void calibrate_rcx20(uint16_t cal_time)
     if ((CFG_LP_CLK == LP_CLK_FROM_OTP) || (CFG_LP_CLK == LP_CLK_RCX20))
     {
         SetWord16(CLK_REF_CNT_REG, cal_time);
-        SetBits16(CLK_REF_SEL_REG, REF_CLK_SEL, 0x3); //RCX select 
+        SetBits16(CLK_REF_SEL_REG, REF_CLK_SEL, 0x3); //RCX select
         SetBits16(CLK_REF_SEL_REG, REF_CAL_START, 0x1); //Start Calibration
         cal_enable = 1;
     }
@@ -291,11 +291,11 @@ void calibrate_rcx20(uint16_t cal_time)
 
 /**
  ****************************************************************************************
- * @brief Calculates RCX20 frequency. 
+ * @brief Calculates RCX20 frequency.
  *
- * @param[in]   cal_time. Calibration time in RCX20 cycles. 
+ * @param[in]   cal_time. Calibration time in RCX20 cycles.
  *
- * @return void 
+ * @return void
  ****************************************************************************************
  */
 void read_rcx_freq(uint16_t cal_time)
@@ -313,7 +313,7 @@ void read_rcx_freq(uint16_t cal_time)
         rcx_freq = f;
         rcx_period = ((float) 1000000/f) * 1024;
         rcx_slot_duration = 0.000625 * (float)rcx_freq;
-        
+
         if (RCX_MEASURE_ENABLED)
         {
             if (rcx_period_last)
@@ -323,7 +323,7 @@ void read_rcx_freq(uint16_t cal_time)
                     rcx_period_diff = abs(diff);
             }
             rcx_period_last = rcx_period;
-            
+
             if (rcx_freq_min == 0)
             {
                 rcx_freq_min = rcx_freq;
@@ -340,41 +340,41 @@ void read_rcx_freq(uint16_t cal_time)
 
 /**
  ****************************************************************************************
- * @brief Sets the BLE wake-up delay.  
+ * @brief Sets the BLE wake-up delay.
  *
- * @return void 
+ * @return void
  ****************************************************************************************
  */
 void set_sleep_delay(void)
 {
     int16_t delay;
-    
+
     if (!USE_POWER_OPTIMIZATIONS)
     {
         uint32_t sleep_delay;
-        
+
         delay = 0;
-        
+
         if ( arch_clk_is_RCX20() )
         {
             if (rcx_period > (RCX_PERIOD_MAX << 10) )
                 ASSERT_ERROR(0);
-            
+
             sleep_delay = SLP_PROC_TIME + SLEEP_PROC_TIME + (4 * RCX_PERIOD_MAX); // 400
         }
-        else 
+        else
         {
             sleep_delay = /*SLP_PROC_TIME + SLEEP_PROC_TIME + */(4 * XTAL32_PERIOD_MAX); // ~200
         }
-        
+
         // Actual "delay" is application specific and is the execution time of the BLE_WAKEUP_LP_Handler(), which depends on XTAL trimming delay.
         // In case of OTP copy, this is done while the XTAL is settling. Time unit of delay is usec.
         delay += XTAL_TRIMMING_TIME_USEC;
-        // Icrease time taking into account the time from the setting of DEEP_SLEEP_ON until the assertion of DEEP_SLEEP_STAT.   
+        // Icrease time taking into account the time from the setting of DEEP_SLEEP_ON until the assertion of DEEP_SLEEP_STAT.
         delay += sleep_delay;
         // Add any application specific delay
         delay += APP_SLEEP_DELAY_OFFSET;
-    }    
+    }
     else // USE_POWER_OPTIMIZATIONS
     {
         delay = MINIMUM_SLEEP_DURATION;
@@ -386,7 +386,7 @@ void set_sleep_delay(void)
         # error "Minimum sleep duration is too small for the 16MHz crystal used..."
         # endif
     }
-    
+
     rwip_wakeup_delay_set(delay);
 }
 
@@ -395,7 +395,7 @@ void set_sleep_delay(void)
  ****************************************************************************************
  * @brief get_rc16m_count_func_patched(). (Patch.
  *
- * @return void 
+ * @return void
  ****************************************************************************************
  */
 #ifdef __GNUC__
@@ -405,11 +405,11 @@ uint16_t __wrap_get_rc16m_count_func(void)
 {
     uint16_t count;
     uint16_t trim = GetBits16(CLK_16M_REG, RC16M_TRIM);
-    
+
     count = __real_get_rc16m_count_func();
 
     SetBits16(CLK_16M_REG, RC16M_TRIM, trim);
-    
+
     return count;
 }
 
@@ -421,11 +421,11 @@ uint16_t $Sub$$get_rc16m_count_func(void)
 {
     uint16_t count;
     uint16_t trim = GetBits16(CLK_16M_REG, RC16M_TRIM);
-    
+
     count = $Super$$get_rc16m_count_func();
 
     SetBits16(CLK_16M_REG, RC16M_TRIM, trim);
-    
+
     return count;
 }
 #endif //__GNUC__
@@ -433,28 +433,28 @@ uint16_t $Sub$$get_rc16m_count_func(void)
 
 /**
  ****************************************************************************************
- * @brief conditionally_run_radio_cals(). Runs conditionally (time + temperature) RF and coarse calibration.                                                                                                                                                                                                                                                                                 ltime and temp changes) RF and coarse calibration  
+ * @brief conditionally_run_radio_cals(). Runs conditionally (time + temperature) RF and coarse calibration.                                                                                                                                                                                                                                                                                 ltime and temp changes) RF and coarse calibration
  *
- * @return void 
+ * @return void
  ****************************************************************************************
  */
-void conditionally_run_radio_cals(void) 
+void conditionally_run_radio_cals(void)
 {
     uint16_t count, count_diff;
-    
+
     bool rf_cal_stat;
-    
-    uint32_t current_time = lld_evt_time_get();    
-    
+
+    uint32_t current_time = lld_evt_time_get();
+
     if (current_time < last_temp_time)
-    { 
+    {
         last_temp_time = 0;
     }
 
     if (force_rf_cal)
     {
         force_rf_cal = 0;
-        
+
         last_temp_time = current_time;
         last_temp_count = get_rc16m_count();
         if (LUT_PATCH_ENABLED)
@@ -462,31 +462,31 @@ void conditionally_run_radio_cals(void)
 
         rf_cal_stat = rf_calibration();
         if ( rf_cal_stat == false)
-            force_rf_cal = 1;        
+            force_rf_cal = 1;
 
         return;
     }
-    
+
     if ( (current_time - last_temp_time) >= 3200) //2 sec
-    {    
+    {
         last_temp_time = current_time;
         count = get_rc16m_count();                  // Estimate the RC16M frequency
-        
+
         if (count > last_temp_count)
             count_diff = count - last_temp_count;
         else
             count_diff = last_temp_count - count ;
-        
+
         if (count_diff >= 24)// If corresponds to 5 C degrees difference
-        { 
+        {
 
             // Update the value of last_count
             last_temp_count = count;
             if (LUT_PATCH_ENABLED)
                 pll_vcocal_LUT_InitUpdate(LUT_UPDATE);    //Update pll look up table
-   
+
             rf_cal_stat = rf_calibration();
-            
+
             if ( rf_cal_stat == false)
                 force_rf_cal = 1;         // Perform the readio calibrations
         }
@@ -495,11 +495,11 @@ void conditionally_run_radio_cals(void)
 
 /**
  ****************************************************************************************
- * @brief       Converts us to low power cycles for RCX20 clock.  
+ * @brief       Converts us to low power cycles for RCX20 clock.
  *
  * @param[in]   us. microseconds
  *
- * @return      uint32. Low power cycles       
+ * @return      uint32. Low power cycles
  ****************************************************************************************
  */
 uint32_t lld_sleep_us_2_lpcycles_rcx_func(uint32_t us)
@@ -510,15 +510,15 @@ uint32_t lld_sleep_us_2_lpcycles_rcx_func(uint32_t us)
     //Compute the low power clock cycles - case of a 16.342kHz clock
     if ((CFG_LP_CLK == LP_CLK_FROM_OTP) || (CFG_LP_CLK == LP_CLK_RCX20))
         lpcycles = (us * rcx_freq) / 1000000;
-    
+
     return(lpcycles);
 }
 
 /**
  ****************************************************************************************
- * @brief       Converts low power cycles to us for RCX20 clock.  
+ * @brief       Converts low power cycles to us for RCX20 clock.
  *
- * @param[in]   lpcycles. Low power cycles 
+ * @param[in]   lpcycles. Low power cycles
  *
  * @return      uint32. microseconds
  ****************************************************************************************
@@ -543,15 +543,15 @@ uint32_t lld_sleep_lpcycles_2_us_rcx_func(uint32_t lpcycles)
     }
 
     return(us);
-}    
+}
 
 /**
  ****************************************************************************************
- * @brief       Selects convertion function (XTAL32 or RCX20) for us to low power cycles.  
+ * @brief       Selects convertion function (XTAL32 or RCX20) for us to low power cycles.
  *
  * @param[in]   us. microseconds
  *
- * @return      uint32. Low power cycles       
+ * @return      uint32. Low power cycles
  ****************************************************************************************
  */
 uint32_t lld_sleep_us_2_lpcycles_sel_func(uint32_t us)
@@ -563,14 +563,14 @@ uint32_t lld_sleep_us_2_lpcycles_sel_func(uint32_t us)
     else if ( arch_clk_is_RCX20( ) )
         lpcycles = lld_sleep_us_2_lpcycles_rcx_func(us);
 
-    return(lpcycles);        
+    return(lpcycles);
 }
 
 /**
  ****************************************************************************************
- * @brief       Selects convertion function (XTAL32 or RCX20) for low power cycles to us.  
+ * @brief       Selects convertion function (XTAL32 or RCX20) for low power cycles to us.
  *
- * @param[in]   lpcycles. Low power cycles 
+ * @param[in]   lpcycles. Low power cycles
  *
  * @return      uint32. microseconds
  ****************************************************************************************
@@ -583,7 +583,7 @@ uint32_t lld_sleep_lpcycles_2_us_sel_func(uint32_t lpcycles)
     else  if ( arch_clk_is_RCX20() )
         us = lld_sleep_lpcycles_2_us_rcx_func(lpcycles);
 
-    return(us);        
+    return(us);
 }
 
 
@@ -600,7 +600,7 @@ bool check_gtl_state(void)
     uint8_t ret = true;
 
     #if (BLE_HOST_PRESENT)
-    {        
+    {
         if ((ke_state_get(TASK_GTL) != GTL_TX_IDLE) ||
                 ((gtl_env.rx_state != GTL_STATE_RX_START) &&
                 (gtl_env.rx_state != GTL_STATE_RX_OUT_OF_SYNC)) )
@@ -614,7 +614,7 @@ bool check_gtl_state(void)
                 ret = false;
     }
     #endif
-    
+
     return ret;
 }
 #endif
@@ -672,7 +672,7 @@ bool uart_flow_off_func(void)
 #if ((EXTERNAL_WAKEUP) && (!BLE_APP_PRESENT)) // only in full embedded designs
 /**
  ****************************************************************************************
- * @brief Enable external wake up GPIO Interrupt. 
+ * @brief Enable external wake up GPIO Interrupt.
  * @param[in] GPIO_PORT. The GPIO port of the external wake up signal
  * @param[in] GPIO_PIN. The GPIO pin of the external wake up signal
  * @param[in] polarity. The polarity of the external wake up interrupt. 0=active low. 1=active high
@@ -689,7 +689,7 @@ void ext_wakeup_enable(uint32_t port, uint32_t pin, uint8_t polarity)
 		GPIO_ConfigurePin((GPIO_PORT) port, (GPIO_PIN) pin, INPUT_PULLUP, PID_GPIO, false ); // active low. Set default to input high.
 	else // active high
 		GPIO_ConfigurePin( (GPIO_PORT) port, (GPIO_PIN) pin, INPUT_PULLDOWN, PID_GPIO, false ); // active high. Set default to input low.
-	
+
 	wkupct_register_callback(ext_wakeup_cb);
 
 	wkupct_enable_irq(1<<pin, (uint32_t)(polarity == 0)?(1<<pin):(0), 1, 0); // pin, active low/high, 1 event, debouncing time = 0ms
@@ -716,21 +716,21 @@ void ext_wakeup_disable(void)
  ****************************************************************************************
  */
 void ext_wakeup_cb(void)
-{ 	
+{
 	if (GetBits16(SYS_STAT_REG, PER_IS_DOWN)) {
 		// Return GPIO functionality from external wakeup GPIO
     if (DEVELOPMENT_DEBUG)
 		GPIO_reservations();
 
 		set_pad_functions();
-  } 
-	
+  }
+
 	SetBits32(GP_CONTROL_REG, BLE_WAKEUP_REQ, 1);
 }
 #endif // ((EXTERNAL_WAKEUP) && (!BLE_APP_PRESENT))
 
 #if (!BLE_HOST_PRESENT)
- 
+
 const struct rwip_eif_api* rwip_eif_get_func(uint8_t type)
 {
     const struct rwip_eif_api* ret = NULL;
@@ -752,7 +752,7 @@ const struct rwip_eif_api* rwip_eif_get_func(uint8_t type)
                         ret = &spi_api;     // select spi api
               else
                         ret = &uart_api;    // select uart api
-              
+
             }
         }
         break;
@@ -778,9 +778,9 @@ const struct rwip_eif_api* rwip_eif_get_func(uint8_t type)
 uint32_t arch_adv_time_calculate (uint8_t adv_len, uint8_t scan_rsp_len)
 {
     uint32_t arch_adv_int;
-    
+
     arch_adv_int = (ARCH_ADV_MIN_DUR + adv_len*8) +  (ARCH_SCAN_RSP_MIN_DUR + scan_rsp_len*8) + ARCH_SCAN_REQ_DUR + (3 * ARCH_INT_FRAME_TIME);
-    
+
     return arch_adv_int;
 }
 
@@ -813,14 +813,14 @@ void init_rand_seed_from_trng(void)
  */
 uint8_t check_sys_startup_period(void)
 {
-   uint8_t ret_value = 0;  
-    
+   uint8_t ret_value = 0;
+
     if (sys_startup_flag)
     {
         uint32_t current_time;
-        
+
         current_time = lld_evt_time_get();
-                
+
         if (current_time < startup_sleep_delay) // startup_sleep_delay after system startup to allow system to sleep
             ret_value = 1;
         else // After 2 seconds system can sleep
@@ -835,7 +835,7 @@ uint8_t check_sys_startup_period(void)
 
             if(USE_WDOG)
                 SetWord16(RESET_FREEZE_REG, FRZ_WDOG);  // Start WDOG
-         
+
             ret_value = 0;
         }
     }
@@ -1017,18 +1017,18 @@ void system_init(void)
     rcx20_calibrate ();
 
     arch_disable_sleep();
-    
+
     /*
      ************************************************************************************
      * Application initializations
      ************************************************************************************
      */
     // Initialise APP
-    
+
 #if (BLE_APP_PRESENT)
         app_init();         // Initialize APP
 #endif
-   
+
      if (user_app_main_loop_callbacks.app_on_init !=NULL)
           user_app_main_loop_callbacks.app_on_init();
 
@@ -1042,9 +1042,9 @@ void system_init(void)
      */
     //set trim and bias of xtal16
     xtal16__trim_init();
-     
+
      // Enable the TX_EN/RX_EN interrupts, depending on the RF mode of operation (PLL-LUT and MGC_KMODALPHA combinations)
-    enable_rf_diag_irq(RF_DIAG_IRQ_MODE_RXTX); 
+    enable_rf_diag_irq(RF_DIAG_IRQ_MODE_RXTX);
 
     /*
      ************************************************************************************
@@ -1054,10 +1054,10 @@ void system_init(void)
     if(USE_WDOG)
     {
         wdg_reload(WATCHDOG_DEFAULT_PERIOD);
-        wdg_resume ();
+        wdg_resume();
     }
 
-#ifndef __DA14581__        
+#ifndef __DA14581__
 # if (BLE_CONNECTION_MAX_USER > 4)
     cs_table[0] = cs_table[0];
 # endif
@@ -1068,22 +1068,22 @@ void system_init(void)
     cs_table[0] = cs_table[0];
 # endif
 #endif //__DA14581__
-    
+
 }
 
 /**
  ****************************************************************************************
  * @brief Wrapper of the platform reset. It will be invoked before a software reset
  * is issued from the stack. Possible reasons will be included in the error field
- * @param[in] error The reason for the reset. It will be one of: 
+ * @param[in] error The reason for the reset. It will be one of:
  *RESET_NO_ERROR,RESET_MEM_ALLOC_FAIL,RESET_TO_ROM,RESET_AND_LOAD_FW
  * @return Returns nothing.
  ****************************************************************************************
  */
 void wrap_platform_reset(uint32_t error)
-{    
+{
     ASSERT_WARNING(error==RESET_AFTER_SPOTA_UPDATE);   //do not break in case of a SPOTA reset
     platform_reset_func(error);
 }
 
-/// @} 
+/// @}

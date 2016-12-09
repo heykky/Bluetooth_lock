@@ -76,37 +76,37 @@
 
 //GPIO settings
 #ifdef SPI_FLASH_WITH_UART_EXAMPLE // hardware modification needed due to confict between UART_RX_PIN and SPI_DI_PIN. SPI_DI_PIN to change to  GPIO_PIN_7
-        #define UART_GPIO_PORT  GPIO_PORT_0
-        #define UART_TX_PIN     GPIO_PIN_4
-        #define UART_RX_PIN     GPIO_PIN_7
+    #define UART_GPIO_PORT  GPIO_PORT_0
+    #define UART_TX_PIN     GPIO_PIN_4
+    #define UART_RX_PIN     GPIO_PIN_7
 
-		#define SPI_GPIO_PORT  GPIO_PORT_2
-        #define SPI_CLK_PIN    GPIO_PIN_0
-        #define SPI_CS_PIN     GPIO_PIN_5
-        #define SPI_DI_PIN     GPIO_PIN_3
-        #define SPI_DO_PIN     GPIO_PIN_1
-		#define LED_GPIO_PORT  GPIO_PORT_1
-        #define USER_LED_PIN    GPIO_PIN_0
-		#define I2C_GPIO_PORT  GPIO_PORT_2
-        #define I2C_SCL_PIN    GPIO_PIN_7
-        #define I2C_SDA_PIN    GPIO_PIN_6
+    #define SPI_GPIO_PORT  GPIO_PORT_2
+    #define SPI_CLK_PIN    GPIO_PIN_0
+    #define SPI_CS_PIN     GPIO_PIN_5
+    #define SPI_DI_PIN     GPIO_PIN_3
+    #define SPI_DO_PIN     GPIO_PIN_1
+    #define LED_GPIO_PORT  GPIO_PORT_1
+    #define USER_LED_PIN   GPIO_PIN_0
+    #define I2C_GPIO_PORT  GPIO_PORT_2
+    #define I2C_SCL_PIN    GPIO_PIN_7
+    #define I2C_SDA_PIN    GPIO_PIN_6
 
-		#define UART_ENABLED
+    #define UART_ENABLED
 
-		#undef SPI_ENABLED
-		#undef LED_ENABLED
-		#undef EEPROM_ENABLED
-        #define BUZZER_ENABLED
+    #undef  SPI_ENABLED
+    #undef  LED_ENABLED
+    #undef  EEPROM_ENABLED
+    #define BUZZER_ENABLED
 
-        #define SW_CURSOR
-		#define LIS3DH_INT
-        #define UART_RX
-        #define UART_TX
-        #define PWM0
-        #define PWM1
-        #define BUTTON_INT
-		#define BUTTON_PORT GPIO_PORT_1
-		#define BUTTON_PIN  GPIO_PIN_2
+    #define SW_CURSOR
+    #define LIS3DH_INT
+    #define UART_RX
+    #define UART_TX
+    #define PWM0
+    #define PWM1
+    #define BUTTON_INT
+    #define BUTTON_PORT GPIO_PORT_1
+    #define BUTTON_PIN  GPIO_PIN_2
 #endif
 
 

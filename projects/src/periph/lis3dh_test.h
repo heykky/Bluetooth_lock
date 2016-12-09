@@ -18,7 +18,6 @@
 #define _LIS3DH_TEST_H_
 #include "lis3dh_driver.h"
 
-status_t LIS3DH_GetINT(void);
 status_t spi_lis3dh_peripheral_init(void);
 void lis3dh_set_pad_functions(void);// set gpio port function mode
 void lis3dh_periph_init(void) ;
