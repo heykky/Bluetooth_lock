@@ -98,6 +98,7 @@ void default_app_on_init(void)
     prf_init_srv_perm();
     
     arch_set_sleep_mode(app_default_sleep_mode);
+    GPIO_SetActive(GPIO_PORT_1,GPIO_PIN_0);
 }
 
 void default_app_on_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param)

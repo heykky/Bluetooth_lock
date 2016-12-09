@@ -1,0 +1,27 @@
+
+T302C 003:825 SEGGER J-Link V4.20c Log File (0000ms, 3815ms total)
+T302C 003:825 DLL Compiled: Sep 24 2010 19:46:42 (0000ms, 3815ms total)
+T302C 003:825 Logging started @ 2016-11-28 17:41 (0001ms, 3815ms total)
+T302C 003:826 JLINK_SetWarnOutHandler(...) (0000ms, 3816ms total)
+T302C 003:826 JLINK_OpenEx(...)
+Firmware: J-Link V9 compiled Jan 29 2015 11:26:22
+Hardware: V9.20
+Feature(s): GDB, RDI, FlashBP, FlashDL, JFlash  returns O.K. (0152ms, 3816ms total)
+T302C 003:978 JLINK_SetErrorOutHandler(...) (0000ms, 3968ms total)
+T302C 003:979 JLINK_ExecCommand("ProjectFile = "F:\Xunce\À¶ÑÀËø\DA14580\¿ª·¢Èí¼þsoftware\SDK\DA14580 SDK5.0.2.1\SDK 5.0.2.1\DA1458x_SDK_5.0.2.1\DA1458x_SDK\5.0.2.1\projects\target_apps\ble_examples\prox_reporter\Keil_4\JLinkSettings.ini"", ...)  returns 0x00 (0000ms, 3968ms total)
+T302C 003:980 JLINK_ExecCommand("DisableConnectionTimeout", ...)  returns 0x00 (0000ms, 3968ms total)
+T302C 003:982 JLINK_TIF_Select(JLINKARM_TIF_SWD)  returns 0x00 (0003ms, 3968ms total)
+T302C 003:988 JLINK_SetSpeed(500) (0002ms, 3971ms total)
+T302C 003:990 JLINK_GetHardwareVersion()  returns 0x16760 (0000ms, 3973ms total)
+T302C 003:990 JLINK_GetDLLVersion()  returns 42003 (0000ms, 3973ms total)
+T302C 003:990 JLINK_GetFirmwareString(...) (0000ms, 3973ms total)
+T302C 003:990 JLINK_GetDLLVersion()  returns 42003 (0000ms, 3973ms total)
+T302C 003:990 JLINK_GetCompileDateTime() (0000ms, 3973ms total)
+T302C 003:990 JLINK_GetFirmwareString(...) (0000ms, 3973ms total)
+T302C 003:991 JLINK_GetHardwareVersion()  returns 0x16760 (0000ms, 3973ms total)
+T302C 003:991 JLINK_Reset() >0x108 TIF> >0x33 TIF> >0x33 TIF> >0x35 TIF> >0x33 TIF> >0x108 TIF> >0x33 TIF>
+  ***** Error: Parity error (Data = 0xFFFFFFFF, ReceivedParity = 1) (0019ms, 3973ms total)
+T302C 003:991  >0x33 TIF> >0x35 TIF> >0x33 TIF>CPU core not found. (0026ms, 3973ms total)
+T302C 004:017 JLINK_JTAG_StoreRaw(..., 0x108 Bits)  returns 0x00 (0000ms, 3999ms total)
+T302C 004:017 JLINK_JTAG_GetU32(BitPos = 227) >0x108 TIF>  returns 0xFFFFFFFF (0003ms, 3999ms total)
+T302C 005:905 JLINK_Close() (0041ms, 4002ms total)
