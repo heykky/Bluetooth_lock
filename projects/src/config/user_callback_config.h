@@ -22,7 +22,7 @@
  * INCLUDE FILES
  ****************************************************************************************
  */
- 
+
 #include "arch_api.h"
 #include "app_callback.h"
 #include "app_entry_point.h"
@@ -113,7 +113,7 @@ static void (*const app_process_catch_rest_cb)(ke_msg_id_t const msgid, void con
 static const  struct arch_main_loop_callbacks user_app_main_loop_callbacks = {
     .app_on_init            = default_app_on_init,
     .app_on_ble_powered     = NULL,
-    .app_on_sytem_powered      = NULL,
+    .app_on_sytem_powered   = NULL,
     .app_before_sleep       = NULL,
     .app_validate_sleep     = NULL,
     .app_going_to_sleep     = NULL,

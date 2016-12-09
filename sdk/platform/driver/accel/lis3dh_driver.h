@@ -54,12 +54,12 @@ typedef u8_t LIS3DH_Int1Conf_t;
 
 typedef enum {
   MEMS_SUCCESS				=		0x01,
-  MEMS_ERROR				=		0x00	
+  MEMS_ERROR				=		0x00
 } status_t;
 
 typedef enum {
   MEMS_ENABLE				=		0x01,
-  MEMS_DISABLE				=		0x00	
+  MEMS_DISABLE				=		0x00
 } State_t;
 
 typedef struct {
@@ -70,16 +70,16 @@ typedef struct {
 
 #endif /*__SHARED__TYPES*/
 
-typedef enum {  
-  LIS3DH_ODR_1Hz		        =		0x01,		
+typedef enum {
+  LIS3DH_ODR_1Hz		        =		0x01,
   LIS3DH_ODR_10Hz                      =		0x02,
   LIS3DH_ODR_25Hz		        =		0x03,
   LIS3DH_ODR_50Hz		        =		0x04,
-  LIS3DH_ODR_100Hz		        =		0x05,	
+  LIS3DH_ODR_100Hz		        =		0x05,
   LIS3DH_ODR_200Hz		        =		0x06,
   LIS3DH_ODR_400Hz		        =		0x07,
   LIS3DH_ODR_1620Hz_LP		        =		0x08,
-  LIS3DH_ODR_1344Hz_NP_5367HZ_LP       =		0x09	
+  LIS3DH_ODR_1344Hz_NP_5367HZ_LP       =		0x09
 } LIS3DH_ODR_t;
 
 typedef enum {
@@ -150,13 +150,13 @@ typedef enum {
   LIS3DH_Y_ENABLE                      =               0x02,
   LIS3DH_Y_DISABLE                     =               0x00,
   LIS3DH_Z_ENABLE                      =               0x04,
-  LIS3DH_Z_DISABLE                     =               0x00    
+  LIS3DH_Z_DISABLE                     =               0x00
 } LIS3DH_AXISenable_t;
 
 typedef enum {
   LIS3DH_INT1_6D_4D_DISABLE            =               0x00,
   LIS3DH_INT1_6D_ENABLE                =               0x01,
-  LIS3DH_INT1_4D_ENABLE                =               0x02 
+  LIS3DH_INT1_4D_ENABLE                =               0x02
 } LIS3DH_INT_6D_4D_t;
 
 typedef enum {
@@ -172,12 +172,12 @@ typedef enum {
   LIS3DH_INT_MODE_OR                   =               0x00,
   LIS3DH_INT_MODE_6D_MOVEMENT          =               0x01,
   LIS3DH_INT_MODE_AND                  =               0x02,
-  LIS3DH_INT_MODE_6D_POSITION          =               0x03  
+  LIS3DH_INT_MODE_6D_POSITION          =               0x03
 } LIS3DH_Int1Mode_t;
 
 
 //interrupt click response
-//  b7 = don't care   b6 = IA  b5 = DClick  b4 = Sclick  b3 = Sign  
+//  b7 = don't care   b6 = IA  b5 = DClick  b4 = Sclick  b3 = Sign
 //  b2 = z      b1 = y     b0 = x
 typedef enum {
 LIS3DH_DCLICK_Z_P                      =               0x24,
@@ -193,7 +193,7 @@ LIS3DH_DCLICK_X_N                      =               0x29,
 LIS3DH_SCLICK_X_P                      =               0x11,
 LIS3DH_SCLICK_X_N                      =               0x19,
 LIS3DH_NO_CLICK                        =               0x00
-} LIS3DH_Click_Response; 
+} LIS3DH_Click_Response;
 
 //TODO: start from here and manage the shared macros etc before this
 
@@ -365,7 +365,7 @@ LIS3DH_NO_CLICK                        =               0x00
 #define LIS3DH_FIFO_SRC_WTM                            0x80
 #define LIS3DH_FIFO_SRC_OVRUN                          0x40
 #define LIS3DH_FIFO_SRC_EMPTY                          0x20
-  
+
 //INTERRUPT CLICK REGISTER
 #define LIS3DH_CLICK_CFG				0x38
 //INTERRUPT CLICK CONFIGURATION bit mask
@@ -417,7 +417,7 @@ LIS3DH_NO_CLICK                        =               0x00
 
 //STATUS REGISTER bit mask
 #define LIS3DH_STATUS_REG_ZYXOR                        0x80    // 1	:	new data set has over written the previous one
-							// 0	:	no overrun has occurred (default)	
+							// 0	:	no overrun has occurred (default)
 #define LIS3DH_STATUS_REG_ZOR                          0x40    // 0	:	no overrun has occurred (default)
 							// 1	:	new Z-axis data has over written the previous one
 #define LIS3DH_STATUS_REG_YOR                          0x20    // 0	:	no overrun has occurred (default)
@@ -425,7 +425,7 @@ LIS3DH_NO_CLICK                        =               0x00
 #define LIS3DH_STATUS_REG_XOR                          0x10    // 0	:	no overrun has occurred (default)
 							// 1	:	new X-axis data has over written the previous one
 #define LIS3DH_STATUS_REG_ZYXDA                        0x08    // 0	:	a new set of data is not yet avvious one
-                                                        // 1	:	a new set of data is available 
+                                                        // 1	:	a new set of data is available
 #define LIS3DH_STATUS_REG_ZDA                          0x04    // 0	:	a new data for the Z-Axis is not availvious one
                                                         // 1	:	a new data for the Z-Axis is available
 #define LIS3DH_STATUS_REG_YDA                          0x02    // 0	:	a new data for the Y-Axis is not available
@@ -520,10 +520,7 @@ status_t LIS3DH_Get6DPosition(u8_t* val);
 // i.e. u8_t LIS3DH_ReadReg(u8_t Reg, u8_t* Data);
 // i.e. u8_t LIS3DH_WriteReg(u8_t Reg, u8_t Data);
 
+u8_t LIS3DH_ReadReg(u8_t, u8_t * );
+u8_t LIS3DH_WriteReg(u8_t, u8_t );
 
 #endif /* __LIS3DH_H */
-
-/******************* (C) COPYRIGHT 2012 STMicroelectronics *****END OF FILE****/
-
-
-

@@ -19,7 +19,6 @@
 #include "global_io.h"
 #include "gpio.h"
 #include <core_cm0.h>
-#include "peripherals.h"
 #include "uart.h"
 #include "periph_setup.h" 
  

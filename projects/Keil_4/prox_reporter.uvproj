@@ -561,6 +561,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\sdk\platform\driver\spi\spi.c</FilePath>
             </File>
+            <File>
+              <FileName>lis3dh_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\sdk\platform\driver\accel\lis3dh_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\sdk\platform\driver\pwm\pwm.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -787,11 +797,6 @@
               <FilePath>..\src\periph\DA14580_examples.c</FilePath>
             </File>
             <File>
-              <FileName>lis3dh_driver.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\periph\lis3dh_driver.c</FilePath>
-            </File>
-            <File>
               <FileName>lis3dh_test.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\periph\lis3dh_test.c</FilePath>
@@ -800,16 +805,6 @@
               <FileName>per_ex_hard_fault.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\periph\per_ex_hard_fault.c</FilePath>
-            </File>
-            <File>
-              <FileName>peripherals.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\periph\peripherals.c</FilePath>
-            </File>
-            <File>
-              <FileName>pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\periph\pwm.c</FilePath>
             </File>
             <File>
               <FileName>pwm_test.c</FileName>
