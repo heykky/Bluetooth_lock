@@ -76,25 +76,12 @@ void patch_gtl_task(void);
 
 #include "user_callback_config.h"
 
-/**
- * @addtogroup DRIVERS
- * @{
- */
-
 /*
- * DEFINES
+ ****************************************************************************************
+ * user app include
  ****************************************************************************************
  */
-
-/*
- * STRUCTURE DEFINITIONS
- ****************************************************************************************
- */
-
-/*
- * GLOBAL VARIABLE DEFINITIONS
- ****************************************************************************************
- */
+#include "user_main.h"
 
 #ifdef __DA14581__
 uint32_t error;              /// Variable storing the reason of platform reset
@@ -113,6 +100,7 @@ volatile uint8 descript[EM_SYSMEM_SIZE] __attribute__((section("BLE_exchange_mem
 bool sys_startup_flag __attribute__((section("retention_mem_area0"), zero_init));
 
 /*
+ ****************************************************************************************
  * LOCAL FUNCTION DECLARATIONS
  ****************************************************************************************
  */
@@ -133,17 +121,6 @@ static inline void app_sleep_prepare_proc(sleep_mode_t *sleep_mode);
 static inline void app_sleep_exit_proc( void );
 static inline void app_sleep_entry_proc(sleep_mode_t sleep_mode);
 
-
-/*
- * EXPORTED FUNCTION DEFINITIONS
- ****************************************************************************************
- */
-
-/*
- * MAIN FUNCTION
- ****************************************************************************************
- */
-
 #if USE_POWER_OPTIMIZATIONS
 extern bool fine_hit;
 #endif
@@ -156,8 +133,6 @@ extern bool fine_hit;
  * It contains the main function loop.
  ****************************************************************************************
  */
-int user_init(void);
-void Buzzer_test(void);
 
 int main_func(void) __attribute__((noreturn));
 int main_func(void)
@@ -210,7 +185,7 @@ int main_func(void)
             // restore interrupts
             GLOBAL_INT_START();
         }*/
-        Buzzer_test();
+
         if (USE_WDOG)
         {
          wdg_reload(WATCHDOG_DEFAULT_PERIOD);

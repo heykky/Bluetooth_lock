@@ -1,26 +1,16 @@
-/**
- ****************************************************************************************
+/*
+ * lis3dh.h
  *
- * @file peripherals.h
- *
- * @brief Peripherals initialization fucntions headers
- *
- * Copyright (C) 2012. Dialog Semiconductor Ltd, unpublished work. This computer 
- * program includes Confidential, Proprietary Information and is a Trade Secret of 
- * Dialog Semiconductor Ltd.  All use, disclosure, and/or reproduction is prohibited 
- * unless authorized in writing. All Rights Reserved.
- *
- * <bluetooth.support@diasemi.com> and contributors.
- *
- ****************************************************************************************
- */ 
+ *  Created on: 2016/12/12
+ *      Author: lc
+ */
 #include <stdint.h>
 
-#ifndef PERIPHERAL_H_INCLUDED
-#define PERIPHERAL_H_INCLUDED
+#ifndef _LIS3DH_H__
+#define _LIS3DH_H__
+#include "lis3dh_driver.h"
 
- 
-void lis3dh_set_pad_functions(void);        // set gpio port function mode
-void lis3dh_periph_init(void) ;
- 
-#endif
+void lis3dh_initail(void);
+status_t LIS3DH_clearINT(void);
+
+#endif/*_LIS3DH_H__*/

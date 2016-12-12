@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5050106: Last Updated: Mon Dec 12 15:51:44 2016
+;#<FEEDBACK># ARM Linker, 5050106: Last Updated: Mon Dec 12 18:36:38 2016
 ;VERSION 0.2
 ;FILE adc.o
 adc_disable <= USED 0
@@ -78,14 +78,8 @@ set_xtal16m_trim_value <= USED 0
 ;FILE bass.o
 ;FILE battery.o
 ;FILE boot_vectors.o
+;FILE button.o
 ;FILE ch_map.obj
-;FILE da14580_examples_1.o
-batt_test <= USED 0
-endtest_bridge <= USED 0
-exit_test <= USED 0
-gpio_init <= USED 0
-print_input <= USED 0
-print_menu <= USED 0
 ;FILE diss.o
 ;FILE gapm_util.obj
 ;FILE gpio.o
@@ -152,7 +146,6 @@ LIS3DH_SetSelfTest <= USED 0
 LIS3DH_SetTemperature <= USED 0
 LIS3DH_SetTriggerInt <= USED 0
 LIS3DH_SetWaterMark <= USED 0
-;FILE lis3dh_test_1.o
 ;FILE llc.obj
 ;FILE nmi_handler.o
 ;FILE nvds.o
@@ -174,8 +167,6 @@ timer2_set_pwm4_duty_cycle <= USED 0
 timer2_set_pwm_frequency <= USED 0
 timer2_set_sw_pause <= USED 0
 timer2_stop <= USED 0
-;FILE pwm_test_1.o
-timer2_test <= USED 0
 ;FILE rf_580.o
 rf_nfm_disable <= USED 0
 rf_nfm_enable <= USED 0
@@ -204,10 +195,11 @@ spi_read_flash_jedec_id <= USED 0
 spi_read_flash_unique_id <= USED 0
 ;FILE spotar.o
 spotar_patched_data_rcved <= USED 0
-;FILE sw_cursor_1.o
 ;FILE syscntl.o
 syscntl_set_dcdc_vbat3v_level <= USED 0
 ;FILE system_armcm0.o
+;FILE timer.o
+timer2_test <= USED 0
 ;FILE trng.o
 ;FILE uart.o
 print_hword <= USED 0
@@ -215,6 +207,8 @@ print_word <= USED 0
 printf_byte <= USED 0
 uart_receive_byte <= USED 0
 uart_test <= USED 0
+;FILE user_main.o
+fputc <= USED 0
 ;FILE user_periph_setup.o
 ;FILE user_proxr.o
 ;FILE wkupct_quadec.o
