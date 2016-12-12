@@ -116,7 +116,7 @@ void GPIO_init( void )
 
 #if DEVELOPMENT_DEBUG
     #ifndef GPIO_DRV_PIN_ALLOC_MON_DISABLED
-        //#warning "GPIO assignment checking is active! Deactivate before burning OTP..."
+        #warning "GPIO assignment checking is active! Deactivate before burning OTP..."
     
     int i, j;
 

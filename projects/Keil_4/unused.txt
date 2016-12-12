@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5050106: Last Updated: Sat Dec 10 00:02:43 2016
+;#<FEEDBACK># ARM Linker, 5050106: Last Updated: Mon Dec 12 09:39:55 2016
 ;VERSION 0.2
 ;FILE adc.o
 adc_disable <= USED 0
@@ -60,12 +60,15 @@ app_spotar_exec_patch <= USED 0
 ;FILE arch_patch.o
 ;FILE arch_sleep.o
 arch_force_active_mode <= USED 0
+arch_get_sleep_mode <= USED 0
 arch_last_rwble_evt_get <= USED 0
 arch_restore_sleep_mode <= USED 0
 ;FILE arch_system.o
+app_use_lower_clocks_check <= USED 0
 arch_adv_time_calculate <= USED 0
 arch_set_pxact_gpio <= USED 0
 calibrate_rcx20 <= USED 0
+check_sys_startup_period <= USED 0
 lld_sleep_lpcycles_2_us_rcx_func <= USED 0
 lld_sleep_us_2_lpcycles_rcx_func <= USED 0
 read_rcx_freq <= USED 0
@@ -80,7 +83,7 @@ set_xtal16m_trim_value <= USED 0
 batt_test <= USED 0
 endtest_bridge <= USED 0
 exit_test <= USED 0
-fputc <= USED 0
+gpio_init <= USED 0
 print_input <= USED 0
 print_menu <= USED 0
 ;FILE diss.o
@@ -88,12 +91,16 @@ print_menu <= USED 0
 ;FILE gpio.o
 GPIO_ConfigurePinPower <= USED 0
 GPIO_GetIRQInputLevel <= USED 0
+GPIO_GetPinStatus <= USED 0
 GPIO_SetIRQInputLevel <= USED 0
 ;FILE hardfault_handler.o
 ;FILE i2c_eeprom.o
 i2c_eeprom_read_byte <= USED 0
 ;FILE jump_table.o
 dummyf <= USED 0
+;FILE ke_mem.obj
+log_ke_free <= USED 0
+log_ke_malloc <= USED 0
 ;FILE ke_task.obj
 ;FILE lis3dh_driver.o
 LIS3DH_FIFOModeEnable <= USED 0
@@ -150,6 +157,7 @@ LIS3DH_SetWaterMark <= USED 0
 ;FILE nvds.o
 ;FILE per_ex_hard_fault.o
 HardFault_Handler <= USED 0
+;FILE peripherals.o
 ;FILE prf_utils.o
 prf_pack_date_time <= USED 0
 prf_unpack_date_time <= USED 0
@@ -174,6 +182,7 @@ rf_nfm_enable <= USED 0
 rf_nfm_is_enabled <= USED 0
 ;FILE rwble.o
 ;FILE rwip.o
+rwip_sleep <= USED 0
 ;FILE smpc.obj
 ;FILE smpc_task.obj
 ;FILE spi.o
@@ -199,9 +208,6 @@ spotar_patched_data_rcved <= USED 0
 ;FILE syscntl.o
 syscntl_set_dcdc_vbat3v_level <= USED 0
 ;FILE system_armcm0.o
-;FILE systick.o
-systick_value <= USED 0
-systick_wait <= USED 0
 ;FILE trng.o
 ;FILE uart.o
 print_hword <= USED 0
@@ -210,7 +216,6 @@ printf_byte <= USED 0
 uart_receive_byte <= USED 0
 uart_test <= USED 0
 ;FILE user_periph_setup.o
-button_callback <= USED 0
 ;FILE user_proxr.o
 ;FILE wkupct_quadec.o
 quad_decoder_disable_irq <= USED 0
@@ -222,4 +227,5 @@ quad_decoder_init <= USED 0
 quad_decoder_register_callback <= USED 0
 quad_decoder_release <= USED 0
 wkupct_disable_irq <= USED 0
+wkupct_enable_irq <= USED 0
 wkupct_quad_disable_IRQ <= USED 0

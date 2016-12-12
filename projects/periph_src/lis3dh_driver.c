@@ -22,20 +22,16 @@
 * THIS SOFTWARE IS SPECIFICALLY DESIGNED FOR EXCLUSIVE USE WITH ST PARTS.
 *
 *******************************************************************************/
-#include "rwble_config.h"
-
-#if (BLE_ACCEL)
 
 /* Includes ------------------------------------------------------------------*/
 #include "lis3dh_driver.h"
+#include "spi.h"
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-
-#include "global_io.h"
-
 
 /*******************************************************************************
 * Function Name		: LIS3DH_ReadReg
@@ -49,33 +45,15 @@ u8_t LIS3DH_ReadReg(u8_t Reg, u8_t* Data) {
   
   //To be completed with either I2c or SPI reading function
   //i.e. *Data = SPI_Mems_Read_Reg( Reg );  
-  
-	  volatile unsigned short spi_write_val;
-	  volatile unsigned short spi_read_val;
-
-		spi_write_val = (1<<15 )| ((Reg &0x3F) << 8) ;
-#if 1	
-    SetBits16(SPI_CTRL_REG,SPI_WORD,1);  			    // set to 16bit mode
-		SetBits16(SPI_CTRL_REG,SPI_POL,1);  			    // set to spi mode 3
-		SetBits16(SPI_CTRL_REG,SPI_PHA,1);  			    // set to spi mode 
-
-		SetBits16(SPI_CTRL_REG,SPI_ON,1);    	  			// enable SPI block
-    SetBits16(SPI_CTRL_REG,SPI_CLK,3);    	  		// fastest clock
-#endif
-		SetWord16(P0_RESET_DATA_REG,1<<6);				//set cs HIGH
-
-    SetWord16(SPI_RX_TX_REG0, spi_write_val);   	// write TX_REG0, trigger to start
-    do{
-    }while (GetBits16(SPI_CTRL_REG,SPI_INT_BIT)==0);  	// polling to wait for spi have data
-    SetWord16(SPI_CLEAR_INT_REG, 1);   				    // clear pending flag	
-    spi_read_val= GetWord16(SPI_RX_TX_REG0);						// get spi data
-    
-		SetWord16(P0_SET_DATA_REG,1<<6);				//set cs HIGH
-
-    SetBits16(SPI_CTRL_REG,SPI_ON,0);    	  			// disable SPI block
-		
-		*Data=(u8_t)(spi_read_val);
 	
+	
+	spi_cs_low();            			            	// pull CS low    
+	
+	spi_access( Reg );
+	*Data = spi_access(0x0000);
+	
+	spi_cs_high();               			            // push CS high
+
   return 1;
 }
 
@@ -92,32 +70,14 @@ u8_t LIS3DH_WriteReg(u8_t WriteAddr, u8_t Data) {
   
   //To be completed with either I2c or SPI writing function
   //i.e. SPI_Mems_Write_Reg(WriteAddr, Data);  
-  
-
-	  volatile unsigned short spi_write_val;
 	
-
-			spi_write_val = ((WriteAddr&0x3F) << 8) | Data;
-#if 1
+	spi_cs_low();            			            	// pull CS low    
 	
-    SetBits16(SPI_CTRL_REG,SPI_WORD,1);  			    // set to 16bit mode
-		SetBits16(SPI_CTRL_REG,SPI_POL,1);  			    // set to spi mode 3
-    SetBits16(SPI_CTRL_REG,SPI_PHA,1);
-    SetBits16(SPI_CTRL_REG,SPI_ON,1);    	  			// enable SPI block
-    SetBits16(SPI_CTRL_REG,SPI_CLK,3);    	  		// fastest clock
-#endif
-		SetWord16(P0_RESET_DATA_REG,1<<6);				//set cs HIGH
-
+	spi_access( WriteAddr );
+	spi_access(Data);  
 	
-    SetWord16(SPI_RX_TX_REG0, spi_write_val);   	// write TX_REG0, trigger to start
-    do{
-    }while (GetBits16(SPI_CTRL_REG,SPI_INT_BIT)==0);  	// polling to wait for spi have data
-    SetWord16(SPI_CLEAR_INT_REG, 1);   				    // clear pending flag	
-    
-		SetWord16(P0_SET_DATA_REG,1<<6);				//set cs HIGH
+	spi_cs_high();               			            // push CS high
 
-    SetBits16(SPI_CTRL_REG,SPI_ON,0);    	  			// disable SPI block
-	
   return 1;
 }
 
@@ -405,7 +365,7 @@ status_t LIS3DH_GetTempRaw(i8_t* buff) {
 status_t LIS3DH_SetMode(LIS3DH_Mode_t md) {
   u8_t value;
   u8_t value2;
-  static   u8_t ODR_old_value __attribute__((section("retention_mem_area0"),zero_init)); //@RETENTION MEMORY
+  static   u8_t ODR_old_value;
   
   if( !LIS3DH_ReadReg(LIS3DH_CTRL_REG1, &value) )
     return MEMS_ERROR;
@@ -1689,4 +1649,3 @@ status_t LIS3DH_SetSPIInterface(LIS3DH_SPIMode_t spi) {
 }
 /******************* (C) COPYRIGHT 2012 STMicroelectronics *****END OF FILE****/
 
-#endif

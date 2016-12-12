@@ -517,11 +517,11 @@ status_t LIS3DH_GetWHO_AM_I(u8_t* val);
 status_t LIS3DH_Get6DPosition(u8_t* val);
 
 //Generic
-// i.e. u8_t LIS3DH_ReadReg(u8_t Reg, u8_t* Data);
-// i.e. u8_t LIS3DH_WriteReg(u8_t Reg, u8_t Data);
+u8_t LIS3DH_ReadReg(u8_t Reg, u8_t* Data);
+u8_t LIS3DH_WriteReg(u8_t Reg, u8_t Data);
 
 
-#endif /* __LIS3DH_H */
+#endif /* __LIS3DH_DRIVER__H */
 
 /******************* (C) COPYRIGHT 2012 STMicroelectronics *****END OF FILE****/
 

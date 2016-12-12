@@ -106,9 +106,9 @@
         #define GPIO_ALERT_LED_PORT     GPIO_PORT_1
         #define GPIO_ALERT_LED_PIN      GPIO_PIN_0
 
-        #define USE_PUSH_BUTTON         1
-        #define GPIO_BUTTON_PORT        GPIO_PORT_1
-        #define GPIO_BUTTON_PIN         GPIO_PIN_2
+        #define USE_PUSH_BUTTON         0
+        #define GPIO_BUTTON_PORT        GPIO_PORT_0
+        #define GPIO_BUTTON_PIN         GPIO_PIN_6
 
         #define USE_BAT_LEVEL_ALERT     0
         #define GPIO_BAT_LED_PORT       GPIO_PORT_1
