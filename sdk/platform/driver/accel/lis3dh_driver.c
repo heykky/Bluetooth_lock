@@ -22,9 +22,9 @@
 * THIS SOFTWARE IS SPECIFICALLY DESIGNED FOR EXCLUSIVE USE WITH ST PARTS.
 *
 *******************************************************************************/
-#include "rwble_config.h"
+//#include "rwble_config.h"
 
-#if (BLE_ACCEL)
+#if (SPI_LIS3DH)
 
 /* Includes ------------------------------------------------------------------*/
 #include "lis3dh_driver.h"
@@ -36,6 +36,9 @@
 
 #include "global_io.h"
 
+#ifndef LOW_LEVEL_SPI_LIS3DH
+#include "spi.h"
+#endif
 
 /*******************************************************************************
 * Function Name		: LIS3DH_ReadReg
@@ -54,15 +57,16 @@ u8_t LIS3DH_ReadReg(u8_t Reg, u8_t* Data) {
 	  volatile unsigned short spi_read_val;
 
 		spi_write_val = (1<<15 )| ((Reg &0x3F) << 8) ;
+#ifdef	LOW_LEVEL_SPI_LIS3DH
 #if 1	
     SetBits16(SPI_CTRL_REG,SPI_WORD,1);  			    // set to 16bit mode
-		SetBits16(SPI_CTRL_REG,SPI_POL,1);  			    // set to spi mode 3
+		SetBits16(SPI_CTRL_REG,SPI_POL,0);  			    // SPI_CLK is initially low
 		SetBits16(SPI_CTRL_REG,SPI_PHA,1);  			    // set to spi mode 
 
 		SetBits16(SPI_CTRL_REG,SPI_ON,1);    	  			// enable SPI block
-    SetBits16(SPI_CTRL_REG,SPI_CLK,3);    	  		// fastest clock
+    SetBits16(SPI_CTRL_REG,SPI_CLK,3);    	  		// 11 = (XTAL) / (CLK_PER_REG *14)
 #endif
-		SetWord16(P0_RESET_DATA_REG,1<<6);				//set cs HIGH
+		SetWord16(P2_RESET_DATA_REG,1<<5);				//set cs LOW
 
     SetWord16(SPI_RX_TX_REG0, spi_write_val);   	// write TX_REG0, trigger to start
     do{
@@ -70,10 +74,16 @@ u8_t LIS3DH_ReadReg(u8_t Reg, u8_t* Data) {
     SetWord16(SPI_CLEAR_INT_REG, 1);   				    // clear pending flag	
     spi_read_val= GetWord16(SPI_RX_TX_REG0);						// get spi data
     
-		SetWord16(P0_SET_DATA_REG,1<<6);				//set cs HIGH
+		SetWord16(P2_SET_DATA_REG,1<<5);				//set cs HIGH
 
     SetBits16(SPI_CTRL_REG,SPI_ON,0);    	  			// disable SPI block
 		
+#else
+		spi_cs_low();
+		spi_read_val = spi_access(spi_write_val);
+		spi_cs_high();
+		
+#endif
 		*Data=(u8_t)(spi_read_val);
 	
   return 1;
@@ -98,6 +108,8 @@ u8_t LIS3DH_WriteReg(u8_t WriteAddr, u8_t Data) {
 	
 
 			spi_write_val = ((WriteAddr&0x3F) << 8) | Data;
+	
+#ifdef	LOW_LEVEL_SPI_LIS3DH
 #if 1
 	
     SetBits16(SPI_CTRL_REG,SPI_WORD,1);  			    // set to 16bit mode
@@ -106,7 +118,8 @@ u8_t LIS3DH_WriteReg(u8_t WriteAddr, u8_t Data) {
     SetBits16(SPI_CTRL_REG,SPI_ON,1);    	  			// enable SPI block
     SetBits16(SPI_CTRL_REG,SPI_CLK,3);    	  		// fastest clock
 #endif
-		SetWord16(P0_RESET_DATA_REG,1<<6);				//set cs HIGH
+
+		SetWord16(P2_RESET_DATA_REG,1<<5);				//set cs LOW
 
 	
     SetWord16(SPI_RX_TX_REG0, spi_write_val);   	// write TX_REG0, trigger to start
@@ -114,10 +127,16 @@ u8_t LIS3DH_WriteReg(u8_t WriteAddr, u8_t Data) {
     }while (GetBits16(SPI_CTRL_REG,SPI_INT_BIT)==0);  	// polling to wait for spi have data
     SetWord16(SPI_CLEAR_INT_REG, 1);   				    // clear pending flag	
     
-		SetWord16(P0_SET_DATA_REG,1<<6);				//set cs HIGH
+		SetWord16(P1_SET_DATA_REG,1<<5);				//set cs HIGH
 
     SetBits16(SPI_CTRL_REG,SPI_ON,0);    	  			// disable SPI block
-	
+#else
+		spi_cs_low();
+		spi_access(spi_write_val);
+		spi_cs_high();
+		
+#endif
+
   return 1;
 }
 

@@ -5,9 +5,9 @@
  *
  * @brief Main loop of the application.
  *
- * Copyright (C) 2012. Dialog Semiconductor Ltd, unpublished work. This computer 
- * program includes Confidential, Proprietary Information and is a Trade Secret of 
- * Dialog Semiconductor Ltd.  All use, disclosure, and/or reproduction is prohibited 
+ * Copyright (C) 2012. Dialog Semiconductor Ltd, unpublished work. This computer
+ * program includes Confidential, Proprietary Information and is a Trade Secret of
+ * Dialog Semiconductor Ltd.  All use, disclosure, and/or reproduction is prohibited
  * unless authorized in writing. All Rights Reserved.
  *
  * <bluetooth.support@diasemi.com> and contributors.
@@ -156,33 +156,23 @@ extern bool fine_hit;
  * It contains the main function loop.
  ****************************************************************************************
  */
- 
- int lid3dh_main (void);
+int user_init(void);
 void Buzzer_test(void);
 
 int main_func(void) __attribute__((noreturn));
 int main_func(void)
 {
     sleep_mode_t sleep_mode;
-    
+
     //global initialise
     system_init();
-    //GPIO_SetActive(GPIO_PORT_1,GPIO_PIN_0);
-    lid3dh_main();    
-    printf("nihao");
+    user_init();
 
-    /*
-     ************************************************************************************
-     * Platform initialization
-     ************************************************************************************
-     */
     while(1)
-    {   
-        do {
-            // schedule all pending events
-            schedule_while_ble_on();
-        }
-        while ((app_asynch_proc()));    //grant control to the application, try to go to power down
+    {
+        do{schedule_while_ble_on();}// schedule all pending events
+        while ((app_asynch_proc()));//grant control to the application, try to go to power down
+
                                                               //if the application returns GOTO_SLEEP
               //((STREAMDATA_QUEUE)&& stream_queue_more_data())); //grant control to the streamer, try to go to power down
                                                                 //if the application returns GOTO_SLEEP
@@ -194,12 +184,12 @@ int main_func(void)
             GLOBAL_INT_STOP();
 
             app_asynch_sleep_proc();
-            
+
             // get the allowed sleep mode
             // time from rwip_power_down() to WFI() must be kept as short as possible!!
             sleep_mode = rwip_power_down();
-            
-            if ((sleep_mode == mode_ext_sleep) || (sleep_mode == mode_deep_sleep)) 
+
+            if ((sleep_mode == mode_ext_sleep) || (sleep_mode == mode_deep_sleep))
             {
             	//power down the radio and whatever is allowed
             	arch_goto_sleep(sleep_mode);
@@ -215,18 +205,18 @@ int main_func(void)
             	if (((!BLE_APP_PRESENT) && check_gtl_state()) ||
             		(BLE_APP_PRESENT))
             		//wait for an interrupt to resume operation
-                    WFI();    
+                    WFI();
             }
             // restore interrupts
             GLOBAL_INT_START();
         }*/
-     Buzzer_test();  
-     if (USE_WDOG)
-    	 wdg_reload(WATCHDOG_DEFAULT_PERIOD);
+        Buzzer_test();
+        if (USE_WDOG)
+        {
+         wdg_reload(WATCHDOG_DEFAULT_PERIOD);
+        }
     }
 }
-
-
 
 /**
  ****************************************************************************************
@@ -353,19 +343,19 @@ static inline  void schedule_while_ble_on(void)
                 //if you have enough time run a temperature calibration of the radio
                if (lld_sleep_check(&sleep_duration, 4)) //6 slots -> 3.750 ms
                 // check time and temperature to run radio calibrations.
-                    conditionally_run_radio_cals(); 
+                    conditionally_run_radio_cals();
             }
 
-            //grant control to the application, try to go to sleep 
+            //grant control to the application, try to go to sleep
             //if the applciation returns GOTO_SLEEP
             if (!app_asynch_trm())
                 break;
-            
-            //SDKIMPROVEMENTS Needs testing!! We can add the following condition and move 
+
+            //SDKIMPROVEMENTS Needs testing!! We can add the following condition and move
             // it out of the loop
             // we may consider putting it in before the app_asynch_trm
-            //if (GetBits16(CLK_CTRL_REG, RUNNING_AT_XTAL16M))    
-            
+            //if (GetBits16(CLK_CTRL_REG, RUNNING_AT_XTAL16M))
+
             // execute the printf process
             arch_printf_process();
         }
@@ -460,7 +450,7 @@ if (current_sleep_mode == mode_ext_sleep || current_sleep_mode == mode_deep_slee
             SetBits16(SYS_CTRL_REG, OTP_COPY, 0);           // disable OTP copy
         } else { // mode_deep_sleep
 #if DEVELOPMENT_DEBUG
-                        SetBits16(SYS_CTRL_REG, RET_SYSRAM, 1);         // retain System RAM		
+                        SetBits16(SYS_CTRL_REG, RET_SYSRAM, 1);         // retain System RAM
 #else
                         SetBits16(SYS_CTRL_REG, RET_SYSRAM, 0);         // turn System RAM off => all data will be lost!
 #endif
@@ -482,7 +472,7 @@ static inline void  otp_prepare(uint32 code_size)
     SetBits16 (CLK_AMBA_REG, OTP_ENABLE, 1);
 
     // Wait a little bit to start the OTP clock...
-    for(uint8 i=0;i<10;i++); //change this later to a defined time  
+    for(uint8 i=0;i<10;i++); //change this later to a defined time
 
     SetBits16(SYS_CTRL_REG, OTP_COPY, 1);
 
@@ -545,7 +535,7 @@ static inline void app_asynch_sleep_proc(void)
     if (user_app_main_loop_callbacks.app_before_sleep !=NULL)
         user_app_main_loop_callbacks.app_before_sleep();
 
-    return; 
+    return;
 }
 
 /**
@@ -564,15 +554,15 @@ static inline void app_sleep_prepare_proc(sleep_mode_t *sleep_mode)
     if (user_app_main_loop_callbacks.app_validate_sleep !=NULL)
         (*sleep_mode)=user_app_main_loop_callbacks.app_validate_sleep(*sleep_mode);
 
-    return;     
-    
+    return;
+
 }
 
 /**
  ****************************************************************************************
  * @brief Used for application specific tasks just before entering the low power mode.
  *
- * @param[in] sleep_mode     Sleep Mode 
+ * @param[in] sleep_mode     Sleep Mode
  *
  * @return void
  ****************************************************************************************
@@ -584,14 +574,14 @@ static inline void app_sleep_entry_proc(sleep_mode_t sleep_mode)
       if (user_app_main_loop_callbacks.app_going_to_sleep !=NULL)
             user_app_main_loop_callbacks.app_going_to_sleep(sleep_mode);
 
-    return;      
+    return;
 }
 
 /**
  ****************************************************************************************
  * @brief Used for application specific tasks immediately after exiting the low power mode.
  *
- * @param[in] sleep_mode     Sleep Mode 
+ * @param[in] sleep_mode     Sleep Mode
  *
  * @return void
  ****************************************************************************************

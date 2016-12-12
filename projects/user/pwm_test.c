@@ -18,7 +18,7 @@
 //#include <stdio.h>
 #include "global_io.h"
 #include "periph_setup.h"
-#include "peripherals.h"
+#include "lis3dh.h"
 #include "uart.h"
 #include "pwm_test.h"
 #include "sw_cursor.h"

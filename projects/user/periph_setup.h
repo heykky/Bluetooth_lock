@@ -7,9 +7,9 @@
  *
  * @brief Peripheral Setup file. GPIO assignment, SPI, SPI Flash, I2C, EEPROM configuration settings, Example selection
  *
- * Copyright (C) 2012. Dialog Semiconductor Ltd, unpublished work. This computer 
- * program includes Confidential, Proprietary Information and is a Trade Secret of 
- * Dialog Semiconductor Ltd.  All use, disclosure, and/or reproduction is prohibited 
+ * Copyright (C) 2012. Dialog Semiconductor Ltd, unpublished work. This computer
+ * program includes Confidential, Proprietary Information and is a Trade Secret of
+ * Dialog Semiconductor Ltd.  All use, disclosure, and/or reproduction is prohibited
  * unless authorized in writing. All Rights Reserved.
  *
  * <bluetooth.support@diasemi.com> and contributors.
@@ -28,7 +28,7 @@
 * (1) I2C EEPROM WITH UART
 * (2) QUADRATURE ENCODER WITH BUZZER AND UART
 *---------------------------------------------------------
-*/ 
+*/
 // <o> Hardware Configuration <0=> SPI Flash with UART <1=> I2C EEPROM with UART <2=> Quadrature Encoder, Timers & Buzzer with UART
 #define HARDWARE_CONFIGURATION_INDEX (0)
 
@@ -49,7 +49,7 @@
 #define UART_BAUDRATE     UART_BAUDRATE_115K2       // Baudrate in bits/s: {9K6, 14K4, 19K2, 28K8, 38K4, 57K6, 115K2}
 #define UART_DATALENGTH   UART_DATALENGTH_8         // Datalength in bits: {5, 6, 7, 8}
 #define UART_PARITY       UART_PARITY_NONE          // Parity: {UART_PARITY_NONE, UART_PARITY_EVEN, UART_PARITY_ODD}
-#define UART_STOPBITS     UART_STOPBITS_1           // Stop bits: {UART_STOPBITS_1, UART_STOPBITS_2} 
+#define UART_STOPBITS     UART_STOPBITS_1           // Stop bits: {UART_STOPBITS_1, UART_STOPBITS_2}
 #define UART_FLOWCONTROL  UART_FLOWCONTROL_DISABLED // Flow control: {UART_FLOWCONTROL_DISABLED, UART_FLOWCONTROL_ENABLED}
 
 
@@ -83,38 +83,38 @@
         #define UART_GPIO_PORT  GPIO_PORT_0
         #define UART_TX_PIN     GPIO_PIN_4
         #define UART_RX_PIN     GPIO_PIN_7
-				
-		#define SPI_GPIO_PORT  GPIO_PORT_2 
+
+		#define SPI_GPIO_PORT  GPIO_PORT_2
         #define SPI_CLK_PIN    GPIO_PIN_0
         #define SPI_CS_PIN     GPIO_PIN_5
         #define SPI_DI_PIN     GPIO_PIN_3
-        #define SPI_DO_PIN     GPIO_PIN_1        
-		#define LED_GPIO_PORT  GPIO_PORT_1 
+        #define SPI_DO_PIN     GPIO_PIN_1
+		#define LED_GPIO_PORT  GPIO_PORT_1
         #define USER_LED_PIN    GPIO_PIN_0
-		#define I2C_GPIO_PORT  GPIO_PORT_2 
+		#define I2C_GPIO_PORT  GPIO_PORT_2
         #define I2C_SCL_PIN    GPIO_PIN_7
         #define I2C_SDA_PIN    GPIO_PIN_6
 
 		#define UART_ENABLED
-        
-		#undef SPI_ENABLED	
-		#undef LED_ENABLED	
+
+		#undef SPI_ENABLED
+		#undef LED_ENABLED
 		#undef EEPROM_ENABLED
         #define BUZZER_ENABLED
-        
+
         #define SW_CURSOR
 		#define LIS3DH_INT
         #define UART_RX
         #define UART_TX
         #define PWM0
-        #define PWM1
+        #define PWM4
         #define BUTTON_INT
 		#define BUTTON_PORT GPIO_PORT_1
 		#define BUTTON_PIN  GPIO_PIN_2
-#endif 
+#endif
 
 
-#ifdef I2C_EEPROM_WITH_UART_EXAMPLE			 
+#ifdef I2C_EEPROM_WITH_UART_EXAMPLE
 		#define UART_GPIO_PORT  GPIO_PORT_0
         #define UART_TX_PIN     GPIO_PIN_4
         #define UART_RX_PIN     GPIO_PIN_5
@@ -123,41 +123,41 @@
 		#define I2C_SCL_PIN     GPIO_PIN_2
         #define I2C_SDA_PIN     GPIO_PIN_3
 
-		#define UART_ENABLED	
-		#undef  SPI_ENABLED	
-		#define  EEPROM_ENABLED	
-#endif   
+		#define UART_ENABLED
+		#undef  SPI_ENABLED
+		#define  EEPROM_ENABLED
+#endif
 
 
 #ifdef QUADRATURE_ENCODER_WITH_BUZZER_AND_UART_EXAMPLE
         #define UART_GPIO_PORT  GPIO_PORT_0
         #define UART_TX_PIN     GPIO_PIN_4
         #define UART_RX_PIN     GPIO_PIN_5
-		#define UART_ENABLED	
-      
+		#define UART_ENABLED
+
          // Quadrature Decoder options
         #define QUADRATURE_ENCODER_CHX_A_PORT GPIO_PORT_0
         #define QUADRATURE_ENCODER_CHX_A_PIN  GPIO_PIN_0
-        #define QUADRATURE_ENCODER_CHX_B_PORT GPIO_PORT_0        
-        #define QUADRATURE_ENCODER_CHX_B_PIN  GPIO_PIN_1 
+        #define QUADRATURE_ENCODER_CHX_B_PORT GPIO_PORT_0
+        #define QUADRATURE_ENCODER_CHX_B_PIN  GPIO_PIN_1
         #define QUADRATURE_ENCODER_CHX_CONFIGURATION QUAD_DEC_CHXA_P00_AND_CHXB_P01
         #define QUADRATURE_ENCODER_CHY_CONFIGURATION QUAD_DEC_CHYA_NONE_AND_CHYB_NONE
         #define QUADRATURE_ENCODER_CHZ_CONFIGURATION QUAD_DEC_CHZA_NONE_AND_CHZB_NONE
         #define WKUP_TEST_BUTTON_1_PORT GPIO_PORT_0
         #define WKUP_TEST_BUTTON_1_PIN GPIO_PIN_6
         #define WKUP_TEST_BUTTON_2_PORT GPIO_PORT_1
-        #define WKUP_TEST_BUTTON_2_PIN GPIO_PIN_1  
+        #define WKUP_TEST_BUTTON_2_PIN GPIO_PIN_1
         #define QDEC_CLOCK_DIVIDER (1)
         #define QDEC_EVENTS_COUNT_TO_INT (1)
-        #define QUADEC_ENABLED   
-        
+        #define QUADEC_ENABLED
+
         #define BUZZER_ENABLED
-#endif 
+#endif
 
 
 #ifndef SPI_CS_PIN
         #define SPI_GPIO_PORT  GPIO_PORT_0
-        #define SPI_CS_PIN     GPIO_PIN_0                           
+        #define SPI_CS_PIN     GPIO_PIN_0
 #endif //SPI_CS_PIN
 
 #ifdef BUZZER_ENABLED
@@ -171,8 +171,8 @@
         #define PWM3_PORT GPIO_PORT_0
         #define PWM3_PIN GPIO_PIN_7
         #define PWM4_PORT GPIO_PORT_1
-        #define PWM4_PIN GPIO_PIN_0    
-#endif //BUZZER_ENABLED      
+        #define PWM4_PIN GPIO_PIN_0
+#endif //BUZZER_ENABLED
 
 #ifdef SW_CURSOR
         // Software Cursor options

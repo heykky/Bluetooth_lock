@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5050106: Last Updated: Mon Dec 12 09:39:55 2016
+;#<FEEDBACK># ARM Linker, 5050106: Last Updated: Mon Dec 12 15:51:44 2016
 ;VERSION 0.2
 ;FILE adc.o
 adc_disable <= USED 0
@@ -79,7 +79,7 @@ set_xtal16m_trim_value <= USED 0
 ;FILE battery.o
 ;FILE boot_vectors.o
 ;FILE ch_map.obj
-;FILE da14580_examples.o
+;FILE da14580_examples_1.o
 batt_test <= USED 0
 endtest_bridge <= USED 0
 exit_test <= USED 0
@@ -102,6 +102,7 @@ dummyf <= USED 0
 log_ke_free <= USED 0
 log_ke_malloc <= USED 0
 ;FILE ke_task.obj
+;FILE lis3dh.o
 ;FILE lis3dh_driver.o
 LIS3DH_FIFOModeEnable <= USED 0
 LIS3DH_Get6DPosition <= USED 0
@@ -151,13 +152,12 @@ LIS3DH_SetSelfTest <= USED 0
 LIS3DH_SetTemperature <= USED 0
 LIS3DH_SetTriggerInt <= USED 0
 LIS3DH_SetWaterMark <= USED 0
-;FILE lis3dh_test.o
+;FILE lis3dh_test_1.o
 ;FILE llc.obj
 ;FILE nmi_handler.o
 ;FILE nvds.o
-;FILE per_ex_hard_fault.o
+;FILE per_ex_hard_fault_1.o
 HardFault_Handler <= USED 0
-;FILE peripherals.o
 ;FILE prf_utils.o
 prf_pack_date_time <= USED 0
 prf_unpack_date_time <= USED 0
@@ -174,7 +174,7 @@ timer2_set_pwm4_duty_cycle <= USED 0
 timer2_set_pwm_frequency <= USED 0
 timer2_set_sw_pause <= USED 0
 timer2_stop <= USED 0
-;FILE pwm_test.o
+;FILE pwm_test_1.o
 timer2_test <= USED 0
 ;FILE rf_580.o
 rf_nfm_disable <= USED 0
@@ -204,7 +204,7 @@ spi_read_flash_jedec_id <= USED 0
 spi_read_flash_unique_id <= USED 0
 ;FILE spotar.o
 spotar_patched_data_rcved <= USED 0
-;FILE sw_cursor.o
+;FILE sw_cursor_1.o
 ;FILE syscntl.o
 syscntl_set_dcdc_vbat3v_level <= USED 0
 ;FILE system_armcm0.o

@@ -18,7 +18,7 @@
 #include "global_io.h"
 #include "datasheet.h"
 #include "pwm.h"
-#include "user_periph_setup.h"
+#include "periph_setup.h"
 
 timer0_handler_function_t* TIMER0_callback;
 
@@ -67,7 +67,7 @@ void timer0_init(TIM0_CLK_SEL_t tim0_clk_sel, PWM_MODE_t pwm_mode, TIM0_CLK_DIV_
     timer0_ctrl_reg.BITFLD_PWM_MODE = pwm_mode;                  
     timer0_ctrl_reg.BITFLD_TIM0_CLK_DIV = tim0_clk_div; // NOTE: divider option is used only for the "ON" counter           
     timer0_ctrl_reg.BITFLD_TIM0_CLK_SEL = tim0_clk_sel;  
-    NVIC_SetPriority (SWTIM_IRQn, 3);                 /* set Priority for TIM0 Interrupt to be the lowest */
+    NVIC_SetPriority (SWTIM_IRQn, 254);                 /* set Priority for TIM0 Interrupt to be the lowest */
 }
 
 
