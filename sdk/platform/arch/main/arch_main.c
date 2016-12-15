@@ -141,6 +141,7 @@ int main_func(void)
 
     //global initialise
     system_init();
+    arch_disable_sleep();
     user_init();
 
     while(1)
@@ -151,13 +152,10 @@ int main_func(void)
                                                               //if the application returns GOTO_SLEEP
               //((STREAMDATA_QUEUE)&& stream_queue_more_data())); //grant control to the streamer, try to go to power down
                                                                 //if the application returns GOTO_SLEEP
-        //wait for interrupt and go to sleep if this is allowed
-		/*if (((!BLE_APP_PRESENT) && (check_gtl_state())) ||
-        	(BLE_APP_PRESENT))
-    	{
-    	 	 //Disable the interrupts
-            GLOBAL_INT_STOP();
 
+		/*if (((!BLE_APP_PRESENT) && (check_gtl_state())) || (BLE_APP_PRESENT))//wait for interrupt and go to sleep if this is allowed
+    	{
+            GLOBAL_INT_STOP();//Disable the interrupts
             app_asynch_sleep_proc();
 
             // get the allowed sleep mode
@@ -166,20 +164,13 @@ int main_func(void)
 
             if ((sleep_mode == mode_ext_sleep) || (sleep_mode == mode_deep_sleep))
             {
-            	//power down the radio and whatever is allowed
-            	arch_goto_sleep(sleep_mode);
-
-            	//wait for an interrupt to resume operation
-                WFI();
-
-                //resume operation
-                arch_resume_from_sleep();
+            	arch_goto_sleep(sleep_mode);//power down the radio and whatever is allowed
+                WFI();//wait for an interrupt to resume operation
+                arch_resume_from_sleep();//resume operation
             }
             else if (sleep_mode == mode_idle)
             {
-            	if (((!BLE_APP_PRESENT) && check_gtl_state()) ||
-            		(BLE_APP_PRESENT))
-            		//wait for an interrupt to resume operation
+            	if (((!BLE_APP_PRESENT) && check_gtl_state()) || (BLE_APP_PRESENT))//wait for an interrupt to resume operation
                     WFI();
             }
             // restore interrupts

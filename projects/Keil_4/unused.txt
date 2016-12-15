@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5050106: Last Updated: Mon Dec 12 18:36:38 2016
+;#<FEEDBACK># ARM Linker, 5050106: Last Updated: Thu Dec 15 13:09:44 2016
 ;VERSION 0.2
 ;FILE adc.o
 adc_disable <= USED 0
@@ -39,14 +39,12 @@ app_easy_security_request_get_active <= USED 0
 app_easy_security_set_ltk_exch <= USED 0
 app_easy_security_tk_get_active <= USED 0
 ;FILE app_easy_timer.o
-app_easy_timer <= USED 0
 app_easy_timer_cancel <= USED 0
 app_easy_timer_cancel_all <= USED 0
 app_easy_timer_free_callback <= USED 0
 app_easy_timer_modify <= USED 0
 ;FILE app_entry_point.o
 ;FILE app_msg_utils.o
-app_check_BLE_active <= USED 0
 app_msg_send_wakeup_ble <= USED 0
 ;FILE app_proxr.o
 ;FILE app_proxr_task.o
@@ -77,6 +75,7 @@ set_xtal16m_trim_value <= USED 0
 ;FILE atts_task.obj
 ;FILE bass.o
 ;FILE battery.o
+;FILE ble_connect.o
 ;FILE boot_vectors.o
 ;FILE button.o
 ;FILE ch_map.obj
@@ -149,7 +148,7 @@ LIS3DH_SetWaterMark <= USED 0
 ;FILE llc.obj
 ;FILE nmi_handler.o
 ;FILE nvds.o
-;FILE per_ex_hard_fault_1.o
+;FILE per_ex_hard_fault.o
 HardFault_Handler <= USED 0
 ;FILE prf_utils.o
 prf_pack_date_time <= USED 0
@@ -208,7 +207,6 @@ printf_byte <= USED 0
 uart_receive_byte <= USED 0
 uart_test <= USED 0
 ;FILE user_main.o
-fputc <= USED 0
 ;FILE user_periph_setup.o
 ;FILE user_proxr.o
 ;FILE wkupct_quadec.o

@@ -58,6 +58,7 @@ int user_init(void)
     GPIO_ConfigurePin(PWM0_PORT, PWM0_PIN, OUTPUT, PID_PWM0, true);//pwm
     GPIO_ConfigurePin(PWM4_PORT, PWM1_PIN, OUTPUT, PID_PWM4, true);//pwm
 
+    timer_init();
 
     return 0;
 }

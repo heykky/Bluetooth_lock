@@ -23,5 +23,6 @@
 
 void timer0_pwm_alarm(void);
 void timer2_test(void);
+void timer_init(void);
 
 #endif //_PWM_TEST_H

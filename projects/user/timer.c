@@ -16,6 +16,7 @@
  ****************************************************************************************
  */
 #include "global_io.h"
+#include "app_easy_timer.h"
 #include "pwm.h"
 #include "uart.h"
 
@@ -71,6 +72,14 @@ void timer0_pwm_alarm(void)
     printf_string("\n\rTIMER0 starts!");
 }
 
+void timer_cb(void)
+{
+    printf_string("cb\n");
+}
+void timer_init(void)
+{
+    printf("timer_id:%d",app_easy_timer(1,timer_cb));
+}
 void timer2_test(void)
 {
     static uint8_t timer2_has_started = false;

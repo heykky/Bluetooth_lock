@@ -22,7 +22,7 @@
  * INCLUDE FILES
  ****************************************************************************************
  */
- 
+
 #include "arch_api.h"
 #include "app_callback.h"
 #include "app_entry_point.h"
@@ -39,7 +39,7 @@
  * USER FUNCTION DECLARATIONS
  ****************************************************************************************
  */
-
+#include "ble_connect.h"
 /**
  ****************************************************************************************
  * @brief Function to be called on the advertising completion event.
@@ -81,8 +81,8 @@ static const struct profile_callbacks user_profile_callbacks = {
 };
 
 static const struct app_callbacks user_app_callbacks = {
-    .app_on_connection              = default_app_on_connection,
-    .app_on_disconnect              = default_app_on_disconnect,
+    .app_on_connection              = user_on_connection,
+    .app_on_disconnect              = user_on_disconnect,
     .app_on_update_params_rejected  = NULL,
     .app_on_update_params_complete  = NULL,
     .app_on_set_dev_config_complete = default_app_on_set_dev_config_complete,

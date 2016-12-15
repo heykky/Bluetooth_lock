@@ -114,9 +114,50 @@
 #endif
 
 
+#ifdef I2C_EEPROM_WITH_UART_EXAMPLE
+		#define UART_GPIO_PORT  GPIO_PORT_0
+        #define UART_TX_PIN     GPIO_PIN_4
+        #define UART_RX_PIN     GPIO_PIN_5
+
+		#define I2C_GPIO_PORT   GPIO_PORT_0
+		#define I2C_SCL_PIN     GPIO_PIN_2
+        #define I2C_SDA_PIN     GPIO_PIN_3
+
+		#define UART_ENABLED
+		#undef  SPI_ENABLED
+		#define EEPROM_ENABLED
+#endif
+
+
+#ifdef QUADRATURE_ENCODER_WITH_BUZZER_AND_UART_EXAMPLE
+        #define UART_GPIO_PORT  GPIO_PORT_0
+        #define UART_TX_PIN     GPIO_PIN_4
+        #define UART_RX_PIN     GPIO_PIN_5
+		#define UART_ENABLED
+
+         // Quadrature Decoder options
+        #define QUADRATURE_ENCODER_CHX_A_PORT GPIO_PORT_0
+        #define QUADRATURE_ENCODER_CHX_A_PIN  GPIO_PIN_0
+        #define QUADRATURE_ENCODER_CHX_B_PORT GPIO_PORT_0
+        #define QUADRATURE_ENCODER_CHX_B_PIN  GPIO_PIN_1
+        #define QUADRATURE_ENCODER_CHX_CONFIGURATION QUAD_DEC_CHXA_P00_AND_CHXB_P01
+        #define QUADRATURE_ENCODER_CHY_CONFIGURATION QUAD_DEC_CHYA_NONE_AND_CHYB_NONE
+        #define QUADRATURE_ENCODER_CHZ_CONFIGURATION QUAD_DEC_CHZA_NONE_AND_CHZB_NONE
+        #define WKUP_TEST_BUTTON_1_PORT GPIO_PORT_0
+        #define WKUP_TEST_BUTTON_1_PIN GPIO_PIN_6
+        #define WKUP_TEST_BUTTON_2_PORT GPIO_PORT_1
+        #define WKUP_TEST_BUTTON_2_PIN GPIO_PIN_1
+        #define QDEC_CLOCK_DIVIDER (1)
+        #define QDEC_EVENTS_COUNT_TO_INT (1)
+        #define QUADEC_ENABLED
+
+        #define BUZZER_ENABLED
+#endif
+
+
 #ifndef SPI_CS_PIN
-    #define SPI_GPIO_PORT  GPIO_PORT_0
-    #define SPI_CS_PIN     GPIO_PIN_0
+        #define SPI_GPIO_PORT  GPIO_PORT_0
+        #define SPI_CS_PIN     GPIO_PIN_0
 #endif //SPI_CS_PIN
 
 #ifdef BUZZER_ENABLED

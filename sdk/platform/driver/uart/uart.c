@@ -15,14 +15,11 @@
  *
  ****************************************************************************************
  */
-
+#include <core_cm0.h>
+#include "periph_setup.h"
 #include "global_io.h"
 #include "gpio.h"
-#include <core_cm0.h>
-#include "lis3dh.h"
 #include "uart.h"
-#include "periph_setup.h"
-
 
 void uart_initialization(void)
 {
@@ -43,43 +40,30 @@ void uart_test(void){
 		printf_string("*************\n\r");
 		printf_string("\n\rHello World! == UART printf_string() ==.\n\r");
 }
-char uart_receive_byte(void){
-	#ifndef UART_ENABLED
-		return 0;
-#else
-	do{
-	}while((GetWord16(UART_LSR_REG)&0x01)==0);	// wait until serial data is ready
+char uart_receive_byte(void)
+{
+    while((GetWord16(UART_LSR_REG)&0x01)==0);	// wait until serial data is ready
 	return 0xFF&GetWord16(UART_RBR_THR_DLL_REG);	// read from receive data buffer
-#endif
 }
 
-void uart_send_byte(char ch){
-	#ifndef UART_ENABLED
-		return ;
-#else
+void uart_send_byte(char ch)
+{
 	while((GetWord16(UART_LSR_REG)&0x20)==0);	// read status reg to check if THR is empty
 	SetWord16(UART_RBR_THR_DLL_REG,(0xFF&ch)); // write to THR register
 	return;
-	#endif
 }
 
-void printf_string(char * str){
-	#ifndef UART_ENABLED
-		return ;
-#else
-
-	while(*str!=0){	      // while not reach the last string character
+void printf_string(char * str)
+{
+	while(*str!=0)// while not reach the last string character
+    {
 		uart_send_byte(*str); // send next string character
 		str++;
 	}
-	#endif
 }
 
-void printf_byte(int a){		  // print a Byte in hex format
-	#ifndef UART_ENABLED
-		return ;
-#else
-
+void printf_byte(int a)// print a Byte in hex format
+{
 	char b;
 	b=((0xF0&a)>>4);
 	b+= (b<10)?48:55;
@@ -87,9 +71,7 @@ void printf_byte(int a){		  // print a Byte in hex format
 	b=(0xF&a);
 	b+= (b<10)?48:55;
 	uart_send_byte(b);
-		#endif
 }
-
 
  /**
  ****************************************************************************************
@@ -98,7 +80,6 @@ void printf_byte(int a){		  // print a Byte in hex format
   *
  ****************************************************************************************
  */
-
 void print_hword(uint16_t aHalfWord)
 {
     printf_byte((aHalfWord >> 8)& 0xFF);
@@ -113,7 +94,6 @@ void print_hword(uint16_t aHalfWord)
   *
  ****************************************************************************************
  */
-
 void print_word(uint32_t aWord)
 {
     printf_byte((aWord >> 24)& 0xFF);
